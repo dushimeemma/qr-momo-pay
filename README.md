@@ -1,36 +1,266 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📱 QR USSD Generator
 
-## Getting Started
+A simple **Next.js + TypeScript + TailwindCSS** application that generates QR codes for USSD payments.
 
-First, run the development server:
+Users can:
+
+- Enter a **Shop Name**
+- Choose **Code** or **Phone Number**
+- Generate a **QR Code**
+- Scan → opens dialer with pre-filled USSD
+- **Download QR as PNG**
+- **Copy USSD**
+
+---
+
+## 🚀 Features
+
+- ✅ Generate QR for:
+  - Code → `*182*8*1*{code}#`
+  - Phone → `*182*1*1*{phone}#`
+
+- ✅ Uses `tel:` scheme for mobile dialing
+- ✅ Download QR as PNG
+- ✅ Copy USSD to clipboard
+- ✅ Clean UI with TailwindCSS
+- ✅ Fully client-side (no backend required)
+
+---
+
+## 🛠 Tech Stack
+
+- **Next.js (App Router)**
+- **TypeScript**
+- **TailwindCSS**
+- **qrcode.react**
+
+---
+
+## 📦 Installation
+
+### 1. Clone the repository
+
+```bash
+git clone <your-repo-url>
+cd qr-ussd-generator
+```
+
+---
+
+### 2. Install dependencies
+
+Using **Yarn**:
+
+```bash
+yarn install
+```
+
+Or using npm:
+
+```bash
+npm install
+```
+
+---
+
+### 3. Run development server
+
+```bash
+yarn dev
+```
+
+or
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 4. Open in browser
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+http://localhost:3000
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## ⚙️ Configuration
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### TailwindCSS
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This project uses **Tailwind v3 (recommended)**.
 
-## Deploy on Vercel
+Ensure you have:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### `tailwind.config.js`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```js
+module.exports = {
+  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+};
+```
+
+---
+
+#### `app/globals.css`
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+---
+
+## 🧠 How it works
+
+### 1. USSD Generation
+
+| Mode  | Generated USSD      |
+| ----- | ------------------- |
+| Code  | `*182*8*1*{code}#`  |
+| Phone | `*182*1*1*{phone}#` |
+
+---
+
+### 2. QR Encoding
+
+QR encodes:
+
+```
+tel:*182*8*1*12345#
+```
+
+👉 This ensures:
+
+- Phone recognizes it as a **dial action**
+- Opens **dialer automatically**
+
+---
+
+### ⚠️ Important Note
+
+- QR **will NOT auto-dial**
+- It will:
+  1. Open dialer
+  2. Pre-fill USSD
+  3. User taps call
+
+This is a **mobile OS security restriction**
+
+---
+
+## 📥 Download QR
+
+QR codes are generated using **canvas**, allowing:
+
+```ts
+canvas.toDataURL("image/png");
+```
+
+This enables:
+
+- Download as `.png`
+- Naming based on shop name
+
+---
+
+## 📁 Project Structure
+
+```
+app/
+ ├── page.tsx
+ ├── globals.css
+ ├── components/
+ │     └── QRGenerator.tsx
+```
+
+---
+
+## 🚀 Build for production
+
+```bash
+yarn build
+yarn start
+```
+
+---
+
+## 🌍 Deployment
+
+### Recommended: Vercel
+
+```bash
+npm install -g vercel
+vercel
+```
+
+---
+
+## 🧪 Testing QR
+
+1. Generate QR
+2. Scan using mobile phone
+3. Expected behavior:
+   - Dialer opens
+   - USSD is pre-filled
+   - Tap call → payment flow
+
+---
+
+## ⚠️ Common Issues
+
+### ❌ QR shows text only
+
+- Ensure it starts with:
+
+  ```
+  tel:
+  ```
+
+---
+
+### ❌ Tailwind not working
+
+- Use **Tailwind v3**
+- Restart dev server
+
+---
+
+### ❌ Download not working
+
+- Ensure using:
+
+  ```
+  QRCodeCanvas
+  ```
+
+  not SVG
+
+---
+
+## 🔮 Future Improvements
+
+- 📥 Export as PDF
+- 🖼 Add logo inside QR
+- 🧾 Print-ready QR cards
+- 📊 QR analytics
+- 🏪 Multi-merchant support
+- ☁️ Backend (save QR history)
+
+---
+
+## 📄 License
+
+MIT License
+
+---
+
+## 👨‍💻 Author
+
+Built for **mobile payment QR generation using USSD**
